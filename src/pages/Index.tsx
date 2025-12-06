@@ -30,6 +30,7 @@ const Index = () => {
   const [isTeamSpinning, setIsTeamSpinning] = useState(false);
   const [isDecadeSpinning, setIsDecadeSpinning] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [allTime,setAllTime] = useState(true);
 
   const handleTeamResult = (result: string) => {
     setTeamResult(result);
@@ -46,6 +47,15 @@ const Index = () => {
       setShowResults(true);
     }
   };
+
+  const handleClick = () => {
+    if(allTime) {
+      setAllTime(false); 
+    }
+    else {
+      setAllTime(true);
+    }
+  }
 
   const resetResults = () => {
     setTeamResult(null);
@@ -66,32 +76,38 @@ const Index = () => {
         {/* Header */}
         <header className="text-center mb-10 md:mb-16">
           <h1 className="text-5xl md:text-7xl font-display text-secondary text-glow mb-4 tracking-wider">
-            CRICKET SPINNER
+            Wheel of Teams
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Spin the wheels to discover a random cricket team and decade combination!
           </p>
+          <button className="px-8 py-3 text-xl font-display rounded-full bg-secondary text-foreground" onClick={handleClick}>{(allTime) ? 'All time' : 'Choose Decade'}</button>
         </header>
 
         {/* Wheels Container */}
+        
         <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20">
-          <SpinningWheel
+            <SpinningWheel
             items={CRICKET_TEAMS}
             title="TEAMS"
             onResult={handleTeamResult}
             isSpinning={isTeamSpinning}
             onSpinStart={() => setIsTeamSpinning(true)}
             onSpinEnd={() => setIsTeamSpinning(false)}
-          />
-
-          <SpinningWheel
+            />
+            {!allTime ? (
+            <SpinningWheel
             items={DECADES}
             title="DECADES"
             onResult={handleDecadeResult}
             isSpinning={isDecadeSpinning}
             onSpinStart={() => setIsDecadeSpinning(true)}
             onSpinEnd={() => setIsDecadeSpinning(false)}
-          />
+            />
+          ): (
+            <></>
+          )
+        } 
         </div>
 
         {/* Results Display */}
@@ -117,7 +133,7 @@ const Index = () => {
 
         {/* Footer */}
         <footer className="text-center mt-16 text-muted-foreground text-sm">
-          <p>🏏 Spin both wheels for the ultimate cricket challenge!</p>
+          <p>🏏 Spin both wheels for the ultimate cricket challenge! Created by your one and only @RishabYadav.</p>
         </footer>
       </div>
     </div>
